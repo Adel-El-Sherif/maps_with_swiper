@@ -1,0 +1,31 @@
+<div class="container">
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" (mapReady)="map = $event">
+
+
+        <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="changeMapPositionWithSwiper(m, i);"
+            [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [markerDraggable]="m.draggable">
+
+            <agm-info-window>
+                <strong>{{m | json}}</strong>
+            </agm-info-window>
+
+        </agm-marker>
+
+    </agm-map>
+
+    <swiper [config]="swiperConfig" #swiper>
+
+        <ng-container *ngFor="let coord of markers; let i = index">
+            <ng-template swiperSlide>
+                <div class="card" (click)="changeMapPositionWithSwiper(coord, i)">
+                    <h2>
+                        {{coord?.lat}}
+                        {{coord?.lng}}
+                    </h2>
+                </div>
+
+            </ng-template>
+        </ng-container>
+
+    </swiper>
+</div>
